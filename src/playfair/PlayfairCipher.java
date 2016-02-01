@@ -105,14 +105,14 @@ public class PlayfairCipher {
                 if (pointer < keysize) {
                     playfairTable[i][j] = key.charAt(pointer);
                     pointer++;
-                    System.out.print(playfairTable[i][j]+ " ");
+                    //System.out.print(playfairTable[i][j]+ " ");
                 } else {
                     playfairTable[i][j] = remAlpha.charAt(pointerAlpha);
                     pointerAlpha++;
-                    System.out.print(playfairTable[i][j]+ " ");
+                    //System.out.print(playfairTable[i][j]+ " ");
                 }
             }
-            System.out.println();
+            //System.out.println();
         }
         
         for (int i = 0; i < size; i++) {
@@ -181,10 +181,20 @@ public class PlayfairCipher {
         return col;
     }
     
+    public boolean containSpace(String str){
+        return str.contains(" ");
+    }
+    
     public String encriptPlainText (String plainText) {
         String res = "";
         plainText = plainText.toUpperCase();
         plainText = plainText.replace('J', 'I');
+        plainText = plainText.replace(" ", "");
+        plainText = plainText.replace(".", "");
+        plainText = plainText.replace(",", "");
+        plainText = plainText.replace("(", "");
+        plainText = plainText.replace(")", "");
+        plainText = plainText.replace("-", "");
         
         int textSize = plainText.length();
         
@@ -233,10 +243,38 @@ public class PlayfairCipher {
         return res;
     }
     
+    public String encriptPlainTextSpace (String plainText) {
+        String res = "";
+        if (containSpace(plainText)) {
+            String splitPlainText[] = plainText.split(" ");
+            for (int i = 0; i < splitPlainText.length; i++) {
+                res += encriptPlainText(splitPlainText[i]) + " ";
+            }
+        } else {
+            res = encriptPlainText(plainText);
+        }
+        return res;
+    }
+    
+    public String groupCipherText (int num, String cipherText) {
+        String res = "";
+        
+        for (int i = 0; i < cipherText.length(); i++) {
+            res += cipherText.charAt(i);
+            if ((i+1)%num == 0) {
+                res += " ";
+            }
+        }
+        
+        return res;
+    }
+    
     public String decriptCipherText (String cipherText) {
         String res = "";
         cipherText = cipherText.toUpperCase();
         cipherText = cipherText.replace('J', 'I');
+        
+        cipherText = cipherText.replace(" ", "");
         
         int textSize = cipherText.length();
         

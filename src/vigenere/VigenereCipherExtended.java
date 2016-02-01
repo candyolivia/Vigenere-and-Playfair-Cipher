@@ -43,9 +43,9 @@ public class VigenereCipherExtended {
                     vigenereTable[i][j] = (char)(j+i);
                 }
                 
-                System.out.print(vigenereTable[i][j]+" ");
+                //System.out.print(vigenereTable[i][j]+" ");
             }
-            System.out.println();
+            //System.out.println();
         }
     }
     
@@ -76,6 +76,24 @@ public class VigenereCipherExtended {
         return res;
     }
     
+    public String EncryptPlainTextGroup(String plaintext, int num) {
+        String res = "";
+        String keytemp = "";
+        
+        while (keytemp.length() < plaintext.length()) {
+            keytemp += key;
+        }
+        
+        for (int i = 0; i < plaintext.length(); i++) {
+            res += vigenereTable[getCharPosition(plaintext.charAt(i))][getCharPosition(keytemp.charAt(i))];
+            if ((i+1)%num == 0) {
+                res += " ";
+            }
+        }
+        
+        return res;
+    }
+    
     public int checkCharPosition(char cc, char ckey) {
         int cek = 0;
         
@@ -93,6 +111,7 @@ public class VigenereCipherExtended {
         String res = "";
         String keytemp = "";
         
+        ciphertext = ciphertext.replace(" ", "");
         while (keytemp.length() < ciphertext.length()) {
             keytemp += key;
         }

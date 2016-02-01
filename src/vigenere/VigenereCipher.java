@@ -6,6 +6,8 @@
 
 package vigenere;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author User
@@ -44,9 +46,9 @@ public class VigenereCipher {
                     vigenereTable[i][j] = (char)(j+65+i);
                 }
                 
-                System.out.print(vigenereTable[i][j]+" ");
+                //System.out.print(vigenereTable[i][j]+" ");
             }
-            System.out.println();
+            //System.out.println();
         }
     }
     
@@ -77,6 +79,58 @@ public class VigenereCipher {
         for (int i = 0; i < plaintext.length(); i++) {
             if (isAlpha(plaintext.charAt(i))){
                 res += plaintext.charAt(i);
+            } else if (plaintext.charAt(i)== ' ') {
+                res += " ";
+            }
+        }
+        
+        return res;
+    }
+    
+    public boolean containSpace (String text) {
+        return text.contains(" ");
+    }
+    
+    public String EncriptPlainTextSpace (String plaintext) {
+        String res = "";
+        String keytemp = "";
+        
+        while (keytemp.length() < plaintext.length()) {
+            keytemp += key;
+        }
+        
+        plaintext = normalizedPlainText(plaintext);
+        
+        for (int i = 0; i < plaintext.length(); i++) {
+            if (plaintext.charAt(i) == ' ') {
+                res += " ";
+            } else {
+                res += vigenereTable[getCharPosition(plaintext.charAt(i))][getCharPosition(keytemp.charAt(i))];
+            
+            }
+        }
+        
+        return res;
+    }
+    
+    public String EncryptPlainTextGroup(String plaintext, int num) {
+        String res = "";
+        String keytemp = "";
+        
+        if (containSpace(plaintext)) {
+            plaintext = plaintext.replace(" ", "");
+        }
+        
+        while (keytemp.length() < plaintext.length()) {
+            keytemp += key;
+        }
+        
+        plaintext = normalizedPlainText(plaintext);
+        
+        for (int i = 0; i < plaintext.length(); i++) {
+            res += vigenereTable[getCharPosition(plaintext.charAt(i))][getCharPosition(keytemp.charAt(i))];
+            if ((i+1)%num == 0) {
+                res += " ";
             }
         }
         
@@ -87,6 +141,7 @@ public class VigenereCipher {
         String res = "";
         String keytemp = "";
         
+        plaintext = plaintext.replace(" ", "");
         while (keytemp.length() < plaintext.length()) {
             keytemp += key;
         }
@@ -123,7 +178,12 @@ public class VigenereCipher {
         }
         
         for (int i = 0; i < ciphertext.length(); i++) {
-            res += alpha.charAt(checkCharPosition(ciphertext.charAt(i),keytemp.charAt(i)));
+            if (ciphertext.charAt(i) == ' ') {
+                
+            } else {
+                res += alpha.charAt(checkCharPosition(ciphertext.charAt(i),keytemp.charAt(i)));
+            }
+            
             
         }
         
