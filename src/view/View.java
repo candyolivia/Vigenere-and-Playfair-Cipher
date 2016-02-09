@@ -311,15 +311,14 @@ public class View extends JPanel {
                     System.out.println("No input text");
                 }
                 
-                VigenereCipher vc = new VigenereCipher();
-                VigenereCipherExtended vce = new VigenereCipherExtended();
-                PlayfairCipher pc = new PlayfairCipher();
+                key = keyField.getText();
                 
                 System.out.println(cipher + " " + resStyle);
                 
                 if (cipher == 1) {
-                    vc.setKey(key);
+                    VigenereCipher vc = new VigenereCipher();
                     vc.createVigenereTable();
+                    vc.setKey(key);
                     if (resStyle == 1) {
                         resultText = vc.EncriptPlainTextSpace(text);
                     } else if (resStyle == 2) {
@@ -329,6 +328,7 @@ public class View extends JPanel {
                     }
                     
                 } else if (cipher == 2) {
+                    VigenereCipherExtended vce = new VigenereCipherExtended();
                     vce.setKey(key);
                     vce.createVigenereTable();
                     if (resStyle == 3) {
@@ -338,6 +338,7 @@ public class View extends JPanel {
                     }
                     
                 } else if (cipher == 3) {
+                    PlayfairCipher pc = new PlayfairCipher();
                     pc.createPlayfairTable(keyField.getText());
                     if (resStyle == 1) {
                         resultText = pc.encriptPlainTextSpace(text);
